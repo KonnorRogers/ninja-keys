@@ -1,19 +1,38 @@
 import {css} from 'lit';
 
-export const baseStyles = css`
+export const componentReset = css`
+  :host {
+    box-sizing: border-box;
+  }
   :host *,
   :host *::before,
   :host *::after {
-    box-sizing: inherit;
+    box-sizing: border-box;
   }
 
   [hidden] {
     display: none !important;
   }
-  :host {
-    box-sizing: border-box;
 
-    --ninja-width: 640px;
+  .visually-hidden:not(:focus-within) {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    max-width: 1px !important;
+    max-height: 1px !important;
+    overflow: hidden;
+    clip: rect(0 0 0 0) !important;
+    clip-path: inset(50%) !important;
+    border: none !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    padding: 0 !important;
+  }
+`
+
+export const baseStyles = css`
+  :host {
+    --ninja-width: max(96vw, 640px);
     --ninja-backdrop-filter: none;
     --ninja-overflow-background: rgba(255, 255, 255, 0.5);
     --ninja-text-color: rgb(60, 65, 73);
@@ -191,17 +210,5 @@ export const baseStyles = css`
   }
   .ninja-examplekey.backspace {
     opacity: 0.7;
-  }
-
-  .visually-hidden:not(:focus-within) {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    clip: rect(0 0 0 0) !important;
-    clip-path: inset(50%) !important;
-    border: none !important;
-    overflow: hidden !important;
-    white-space: nowrap !important;
-    padding: 0 !important;
   }
 `;

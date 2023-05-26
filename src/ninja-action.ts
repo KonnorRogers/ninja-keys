@@ -1,15 +1,17 @@
-import {LitElement, html, css} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {html, css} from 'lit';
+import {property} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import {join} from 'lit/directives/join.js';
 import '@material/mwc-icon';
+import {componentReset} from './base-styles.js';
 
 import {INinjaAction} from './interfaces/ininja-action.js';
+import { BaseElement } from './base-element.js';
 
-@customElement('ninja-action')
-export class NinjaAction extends LitElement {
-  static override styles = css`
+export class NinjaAction extends BaseElement {
+  static override baseName = "ninja-action"
+  static override styles = [componentReset, css`
     :host {
       display: flex;
       width: 100%;
@@ -78,7 +80,7 @@ export class NinjaAction extends LitElement {
     .ninja-hotkeys + .ninja-hotkeys {
       margin-left: 1em;
     }
-  `;
+  `];
 
   @property({type: Object})
   action!: INinjaAction;
@@ -178,6 +180,8 @@ export class NinjaAction extends LitElement {
     `;
   }
 }
+
+NinjaAction.define()
 
 declare global {
   interface HTMLElementTagNameMap {

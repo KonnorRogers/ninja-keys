@@ -1,10 +1,12 @@
-import {LitElement, html, css, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {html, css, TemplateResult} from 'lit';
+import {property} from 'lit/decorators.js';
 import {ref, createRef} from 'lit/directives/ref.js';
+import { BaseElement } from './base-element';
+import { componentReset } from './base-styles';
 
-@customElement('ninja-header')
-export class NinjaHeader extends LitElement {
-  static override styles = css`
+export class NinjaHeader extends BaseElement {
+  static override baseName = "ninja-header"
+  static override styles = [componentReset, css`
     :host {
       flex: 1;
       position: relative;
@@ -53,7 +55,7 @@ export class NinjaHeader extends LitElement {
       display: flex;
       border-bottom: var(--ninja-separate-border);
     }
-  `;
+  `];
 
   @property()
   placeholder = '';
@@ -133,9 +135,11 @@ export class NinjaHeader extends LitElement {
           role="combobox"
         />
 
-        <slot name="search-label" id="search-label" class="visually-hidden">
-          <span>${this.searchLabel}</span>
-        </slot>
+        <div class="visually-hidden">
+          <slot name="search-label" id="search-label">
+            <span>${this.searchLabel}</span>
+          </slot>
+        </div>
       </div>
     `;
   }
@@ -181,6 +185,8 @@ export class NinjaHeader extends LitElement {
     );
   }
 }
+
+NinjaHeader.define()
 
 declare global {
   interface HTMLElementTagNameMap {

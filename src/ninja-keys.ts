@@ -1,5 +1,6 @@
-import {LitElement, html, TemplateResult, PropertyValues} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import { BaseElement } from "./base-element.js"
+import {html, TemplateResult, PropertyValues} from 'lit';
+import {property, state} from 'lit/decorators.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {live} from 'lit/directives/live.js';
 import {createRef, ref} from 'lit-html/directives/ref.js';
@@ -12,11 +13,11 @@ import {INinjaAction} from './interfaces/ininja-action.js';
 import {NinjaHeader} from './ninja-header.js';
 import {NinjaAction} from './ninja-action.js';
 import {footerHtml} from './ninja-footer.js';
-import {baseStyles} from './base-styles.js';
+import {baseStyles, componentReset} from './base-styles.js';
 
-@customElement('ninja-keys')
-export class NinjaKeys extends LitElement {
-  static override styles = [baseStyles];
+export class NinjaKeys extends BaseElement {
+  static override baseName = "ninja-keys"
+  static override styles = [componentReset, baseStyles];
 
   /**
    * Search placeholder text
@@ -332,10 +333,13 @@ export class NinjaKeys extends LitElement {
     }
 
     if (this.closeHotkey) {
-      hotkeys(this.closeHotkey, () => {
+      hotkeys(this.closeHotkey, (e) => {
         if (!this.visible) {
           return;
         }
+
+
+        e.preventDefault()
         this.close();
       });
     }
@@ -481,10 +485,11 @@ export class NinjaKeys extends LitElement {
               ${itemTemplates}
             </div>
 
-            <slot id="listbox-label" name="listbox-label" class="visually-hidden">
-              <span>${this.listboxLabel}</span>
-            </slot>
-          </div>
+            <div class="visually-hidden">
+              <slot id="listbox-label" name="listbox-label">
+                <span>${this.listboxLabel}</span>
+              </slot>
+            </div>
           <slot name="footer"> ${footerHtml} </slot>
         </div>
       </div>
@@ -549,6 +554,8 @@ export class NinjaKeys extends LitElement {
     }
   }
 }
+
+NinjaKeys.define()
 
 declare global {
   interface HTMLElementTagNameMap {
